@@ -1,0 +1,7 @@
+(setvar "expert" 3)
+(command "-linetype" "load" "_CustomLayerName1" "acadiso.lin" "")
+-layer m NegativeLayerName c 96 NegativeLayerName l _CustomLayerName1 NegativeLayerName 
+(command "-linetype" "load" "_CustomLayerName2" "acadiso.lin" "")
+-layer m PositiveLayerName c 10 PositiveLayerName l _CustomLayerName2 PositiveLayerName 
+(command "-linetype" "load" "_CustomLayerName3" "acadiso.lin" "")
+-layer m TraceLayerName c 30 TraceLayerName l _CustomLayerName3 TraceLayerName 

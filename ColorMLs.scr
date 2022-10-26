@@ -1,0 +1,88 @@
+(defun c:REPLACEPOSMLEADERS  (/ sel e)
+  (if (setq sel (ssget '((0 . "MULTILEADER")(8 . "*")))); works for any layers
+      (repeat (sslength sel)
+            (setq e (vlax-ename->vla-object (ssname sel 0))
+                   str (vla-get-textstring e))
+            (if (setq f
+                (cond
+                        ((wcmatch str "*PositiveMLeaderName1*") (list "P" "{\\L\\C256P"));Positive sample, red underlined (layer is red)
+                        ((wcmatch str "*PositiveMLeaderName2*") (list "P" "{\\L\\C256P"));Note that "P" should be replaced with the first letter of the mleader text
+                        ((wcmatch str "*PositiveMLeaderName3*") (list "P" "{\\L\\C256P"))
+                             ))
+            (progn 
+                          (vla-put-textstring e
+                      (vl-string-subst (cadr f)(car f) str) )
+                          (vlax-put-property e 'ArrowheadType 3)
+                          (vlax-put-property e 'StyleName "Custom Style Name - Positive");Add in custom mleader style name (type must be defined in the mleader types of the file)
+                          )
+                             
+                                     )
+                 (ssdel (ssname sel 0) sel)
+                 )
+           )
+           (princ)
+       )
+(c:REPLACEPOSMLEADERS)
+all
+
+(defun c:REPLACETRACEMLEADERS  (/ sel e)
+  (if (setq sel (ssget '((0 . "MULTILEADER")(8 . "*")))); works for any layers
+      (repeat (sslength sel)
+            (setq e (vlax-ename->vla-object (ssname sel 0))
+                   str (vla-get-textstring e))
+            (if (setq f
+                (condT
+                        ((wcmatch str "*TraceMLeaderName1*") (list "T" "{\\Q15\\C256T"));Trace sample, italicized orange (layer is orange)
+                        ((wcmatch str "*TraceMLeaderName2*") (list "T" "{\\Q15\\C256T"));Note that "T" should be replaced with the first letter of the mleader text
+                        ((wcmatch str "*TraceMLeaderName3*") (list "T" "{\\Q15\\C256T"))
+                             ))
+            (progn 
+                          (vla-put-textstring e
+                      (vl-string-subst (cadr f)(car f) str) )
+                          (vlax-put-property e 'ArrowheadType 3)
+                          (vlax-put-property e 'StyleName "Custom Style Name - Trace");Add in custom mleader style name (type must be defined in the mleader types of the file)
+                          )
+                             
+                                     )
+                 (ssdel (ssname sel 0) sel)
+                 )
+           )
+           (princ)
+       )
+(c:REPLACETRACEMLEADERS)
+all
+
+(defun c:REPLACENEGMLEADERS  (/ sel e)
+  (if (setq sel (ssget '((0 . "MULTILEADER")(8 . "*")))); works for any layers
+      (repeat (sslength sel)
+            (setq e (vlax-ename->vla-object (ssname sel 0))
+                   str (vla-get-textstring e))
+            (if (setq f
+                (cond
+                        ((wcmatch str "*NegativeMLeaderName1*") (list "N" "N"));Add all mleaders that are negative, overwrite mistakes
+                        ((wcmatch str "*NegativeMLeaderName2*") (list "N" "N"));Note that "N" should be replaced with the first letter of the mleader text
+                        ((wcmatch str "*NegativeMLeaderName3*") (list "N" "N"))
+                             ))
+            (progn 
+                          (vla-put-textstring e
+                      (vl-string-subst (cadr f)(car f) str) )
+                          (vlax-put-property e 'StyleName "Custom Style Name - Negative");Add in custom mleader style name (type must be defined in the mleader types of the file)
+                          )
+                             
+                                     )
+                 (ssdel (ssname sel 0) sel)
+                 )
+           )
+           (princ)
+       )
+(c:REPLACENEGMLEADERS)
+all
+
+(defun c:LCA (); = Layer Color Assignment
+   (command "_.layer"
+     "_color" 10 "PositiveLayer1,PositiveLayer2,PositiveLayer3"; Fill in with all positive layer names
+     "_color" 96 "NegativeLayer1,NegativeLayer2,NegativeLayer3"; Fill in with all negative layer names
+     "" ; finish Layer command
+)
+)
+(c:LCA)

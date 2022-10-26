@@ -1,0 +1,3 @@
+-layer m NegativeLayerName c 96 NegativeLayerName l Continuous NegativeLayerName 
+-layer m PositiveLayerName c 10 PositiveLayerName l Continuous PositiveLayerName 
+-layer m TraceLayerName c 30 TraceLayerName l Continuous TraceLayerName 
